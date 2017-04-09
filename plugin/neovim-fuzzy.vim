@@ -13,6 +13,10 @@ if !exists("g:fuzzy_opencmd")
   let g:fuzzy_opencmd = 'edit'
 endif
 
+if !exists("g:fuzzy_matchcount")
+  let g:fuzzy_matchcount = 12
+endif
+
 if !exists("g:fuzzy_rootcmds")
   let g:fuzzy_rootcmds = [
   \ 'git rev-parse --show-toplevel',
@@ -116,7 +120,7 @@ function! s:fuzzy_grep(str) abort
     return
   endtry
 
-  let opts = { 'lines': 12, 'statusfmt': 'FuzzyGrep %s (%d results)', 'root': '.' }
+  let opts = { 'lines': g:fuzzy_matchcount, 'statusfmt': 'FuzzyGrep %s (%d results)', 'root': '.' }
 
   function! opts.handler(result) abort
     let parts = split(join(a:result), ':')
@@ -160,7 +164,7 @@ function! s:fuzzy_open(root) abort
   " Put it all together.
   let result = bufs + files
 
-  let opts = { 'lines': 12, 'statusfmt': 'FuzzyOpen %s (%d files)', 'root': root }
+  let opts = { 'lines': g:fuzzy_matchcount, 'statusfmt': 'FuzzyOpen %s (%d files)', 'root': root }
   function! opts.handler(result)
     return { 'name': join(a:result) }
   endfunction
